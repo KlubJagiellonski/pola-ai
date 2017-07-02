@@ -14,3 +14,6 @@
 
 #### Train Xception network
 `python python train_pola.py`
+
+#### TensorBoard
+`tensorboard --logdir=flowers:log,pola:pola_log`
