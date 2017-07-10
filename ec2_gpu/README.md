@@ -52,6 +52,6 @@ $ sudo nvidia-docker run --rm nvidia/cuda nvidia-smi
 ```
 
 ### Luanch TensorFlow GPU
-```
-? sudo nvidia-docker run --rm -v `pwd`:/app -it tensorflow/tensorflow:latest-gpu bash
+``` 
+? sudo nvidia-docker run --rm -v `pwd`:/app -p 6006:6006 -it tensorflow/tensorflow:latest-gpu bash
 ```
