@@ -1,7 +1,5 @@
 data/Pola_att
 data/Pola_jpg
-ios_camera/Pods
-ios_camera/tf_camera_example.xcworkspace/xcuserdata
 data/pola_retrained.pb
 data/pola_retrained_labels.txt
 data/q_stripped_pola_retrained.pb
@@ -10,4 +8,6 @@ data/bottleneck
 data/inc_v3
 ios_camera/data/pola_retrained_labels.txt
 ios_camera/data/q_stripped_pola_retrained.pb
+ios_camera/Pods
+ios_camera/tf_camera_example.xcworkspace/xcuserdata
 ios_camera/tf_camera_example.xcodeproj/xcuserdata
