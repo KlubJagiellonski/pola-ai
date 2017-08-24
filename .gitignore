@@ -11,3 +11,4 @@ ios_camera/data/q_stripped_pola_retrained.pb
 ios_camera/Pods
 ios_camera/tf_camera_example.xcworkspace/xcuserdata
 ios_camera/tf_camera_example.xcodeproj/xcuserdata
+data/Pola_ai
