@@ -1,9 +1,19 @@
+# -*- coding: utf-8 -*-
 import requests
 import argparse
 import operator
 import os
 from urlparse import urlparse
 from PIL import Image
+
+POLISH_LETTERS = [u'ąćęłóźżĄĆĘŁÓŹŻ',u'acelozzACELOZZ']
+
+def normalize_name(name):
+    name = name[:30].strip()
+    for i in range(len(POLISH_LETTERS[0])):
+        name = name.replace(POLISH_LETTERS[0][i], POLISH_LETTERS[1][i])
+    name = ''.join([c if ord(c) < 128 and ord(c) > 47 else " " for c in name])
+    return name
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("get_ai_pics")
@@ -47,8 +57,7 @@ if __name__ == "__main__":
     for aipic in aipics:
         if aipic['code'] in top_codes:
 
-            prod = aipic['product_name'][:30].strip()
-            prod = ''.join([c if ord(c)<128 and ord(c)>47 else " " for c in prod])
+            prod = u'{}#{}'.format(normalize_name(aipic['product_name']), aipic['company_id'])
             dir = os.path.join(data_dir, prod)
             if not os.path.exists(dir):
                 os.makedirs(dir)
