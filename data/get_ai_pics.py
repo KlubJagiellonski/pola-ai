@@ -25,7 +25,7 @@ if __name__ == "__main__":
     sorted_no_pics = sorted(no_per_code.items(), key=operator.itemgetter(1), reverse=True)
 
     top_codes = set()
-    for i in range(0,5):
+    for i in range(0,10):
         print sorted_no_pics[i][1],':',code_to_name[sorted_no_pics[i][0]]
         top_codes.add(sorted_no_pics[i][0])
 
@@ -78,5 +78,7 @@ if __name__ == "__main__":
 
     for dir in existing_dirs:
         print 'Deleting: '+os.path.join(data_dir, dir)
-        os.remove(os.path.join(data_dir, dir, '.DS_Store'))
+        ds_store = os.path.join(data_dir, dir, '.DS_Store')
+        if os.path.exists(ds_store):
+            os.remove(ds_store)
         os.rmdir(os.path.join(data_dir, dir))
