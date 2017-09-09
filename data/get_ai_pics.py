@@ -25,9 +25,11 @@ if __name__ == "__main__":
     sorted_no_pics = sorted(no_per_code.items(), key=operator.itemgetter(1), reverse=True)
 
     top_codes = set()
-    for i in range(0,10):
+    i = 0
+    while sorted_no_pics[i][1] >= 20:
         print sorted_no_pics[i][1],':',code_to_name[sorted_no_pics[i][0]]
         top_codes.add(sorted_no_pics[i][0])
+        i += 1
 
     data_dir = args.data_dir
 
