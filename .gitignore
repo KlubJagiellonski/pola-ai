@@ -10,3 +10,7 @@ ios_camera/Pods
 ios_camera/tf_camera_example.xcworkspace/xcuserdata
 ios_camera/tf_camera_example.xcodeproj/xcuserdata
 data/Pola_ai
+android_camera/.gradle
+android_camera/gradle
+android_camera/gradleBuild
+local.properties
