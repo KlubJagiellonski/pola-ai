@@ -21,10 +21,17 @@ if __name__ == "__main__":
     parser.add_argument("data_dir", type=str)
     args = parser.parse_args()
 
-    r = requests.post('https://www.pola-app.pl/a/v3/get_ai_pics',
-            data = {'shared_secret': args.shared_secret})
+    aipics = []
+    page_no = 0
 
-    aipics = r.json()['aipics']
+    while(True):
+        r = requests.post('https://www.pola-app.pl/a/v3/get_ai_pics?page={}'.format(page_no),
+                data = {'shared_secret': args.shared_secret})
+        page_aipics = r.json()['aipics']
+        if len(page_aipics) == 0:
+            break
+        aipics.extend(page_aipics)
+        page_no += 1
 
     no_per_code = {}
     code_to_name = {}
