@@ -1,4 +1,5 @@
-// Copyright 2015 Google Inc. All rights reserved.
+// Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,12 +17,12 @@
 
 #import "CameraExampleAppDelegate.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   int retVal = 0;
 
   @autoreleasepool {
-    retVal = UIApplicationMain(
-        argc, argv, nil, NSStringFromClass([CameraExampleAppDelegate class]));
+    retVal =
+        UIApplicationMain(argc, argv, nil, NSStringFromClass([CameraExampleAppDelegate class]));
   }
   return retVal;
 }

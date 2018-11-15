@@ -1,4 +1,4 @@
-// Copyright 2015 Google Inc. All rights reserved.
+// Copyright 2017 The TensorFlow Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,31 +15,32 @@
 #import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 
-#include <memory>
-#include "tensorflow/core/public/session.h"
-#include "tensorflow/core/util/memmapped_file_system.h"
+#include <vector>
+
+#include "tensorflow/lite/kernels/register.h"
+#include "tensorflow/lite/model.h"
 
 @interface CameraExampleViewController
-    : UIViewController<UIGestureRecognizerDelegate,
-                       AVCaptureVideoDataOutputSampleBufferDelegate> {
-  IBOutlet UIView *previewView;
-  IBOutlet UISegmentedControl *camerasControl;
-  AVCaptureVideoPreviewLayer *previewLayer;
-  AVCaptureVideoDataOutput *videoDataOutput;
+    : UIViewController<UIGestureRecognizerDelegate, AVCaptureVideoDataOutputSampleBufferDelegate> {
+  IBOutlet UIView* previewView;
+  AVCaptureVideoPreviewLayer* previewLayer;
+  AVCaptureVideoDataOutput* videoDataOutput;
   dispatch_queue_t videoDataOutputQueue;
-  AVCaptureStillImageOutput *stillImageOutput;
-  UIView *flashView;
-  UIImage *square;
+  UIView* flashView;
   BOOL isUsingFrontFacingCamera;
-  AVSpeechSynthesizer *synth;
-  NSMutableDictionary *oldPredictionValues;
-  NSMutableArray *labelLayers;
-  AVCaptureSession *session;
-  std::unique_ptr<tensorflow::Session> tf_session;
-  std::unique_ptr<tensorflow::MemmappedEnv> tf_memmapped_env;
+  NSMutableDictionary* oldPredictionValues;
+  NSMutableArray* labelLayers;
+  AVCaptureSession* session;
+
   std::vector<std::string> labels;
+  std::unique_ptr<tflite::FlatBufferModel> model;
+  tflite::ops::builtin::BuiltinOpResolver resolver;
+  std::unique_ptr<tflite::Interpreter> interpreter;
+
+  double total_latency;
+  int total_count;
 }
-@property(strong, nonatomic) CATextLayer *predictionTextLayer;
+@property(strong, nonatomic) CATextLayer* predictionTextLayer;
 
 - (IBAction)takePicture:(id)sender;
 - (IBAction)switchCameras:(id)sender;

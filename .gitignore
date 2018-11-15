@@ -7,10 +7,9 @@ data/stripped_pola_retrained.pb
 data/bottleneck
 data/inc_v3
 ios_camera/Pods
-ios_camera/tf_camera_example.xcworkspace/xcuserdata
-ios_camera/tf_camera_example.xcodeproj/xcuserdata
 data/Pola_ai
 android_camera/.gradle
 android_camera/gradle
 android_camera/gradleBuild
 local.properties
+ios_camera/tflite_camera_example.xcodeproj
