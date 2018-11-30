@@ -23,10 +23,10 @@
 #include <iostream>
 #include <queue>
 
-#include "tensorflow/lite/kernels/register.h"
-#include "tensorflow/lite/model.h"
-#include "tensorflow/lite/string_util.h"
-#include "tensorflow/lite/op_resolver.h"
+#include "tensorflow/contrib/lite/kernels/register.h"
+#include "tensorflow/contrib/lite/model.h"
+#include "tensorflow/contrib/lite/string_util.h"
+#include "tensorflow/contrib/lite/op_resolver.h"
 
 #define LOG(x) std::cerr
 
@@ -34,20 +34,18 @@ namespace {
 
 // If you have your own model, modify this to the file name, and make sure
 // you've added the file to your app resources too.
-NSString* model_file_name = @"mobilenet_v1_1.0_224";
+NSString* model_file_name = @"pola_retrained";
 NSString* model_file_type = @"tflite";
 // If you have your own model, point this to the labels file.
-NSString* labels_file_name = @"labels";
+NSString* labels_file_name = @"pola_retrained";
 NSString* labels_file_type = @"txt";
 
 // These dimensions need to match those the model was trained with.
 const int wanted_input_width = 224;
 const int wanted_input_height = 224;
 const int wanted_input_channels = 3;
-const float input_mean = 127.5f;
-const float input_std = 127.5f;
-const std::string input_layer_name = "input";
-const std::string output_layer_name = "softmax1";
+const float input_mean = 128.0f;
+const float input_std = 128.0f;
 
 NSString* FilePathForResourceName(NSString* name, NSString* extension) {
   NSString* file_path = [[NSBundle mainBundle] pathForResource:name ofType:extension];
@@ -326,7 +324,13 @@ void ProcessInputWithQuantizedModel(
   NSLog(@"Time: %.4lf, avg: %.4lf, count: %d", end - start, total_latency / total_count,
         total_count);
 
-  const int output_size = 1000;
+  // read output size from the output sensor
+  const int output_tensor_index = interpreter->outputs()[0];
+  TfLiteTensor* output_tensor = interpreter->tensor(output_tensor_index);
+  TfLiteIntArray* output_dims = output_tensor->dims;
+  assert(output_dims->size == 2);
+  const int output_size = output_dims->data[1]-output_dims->data[0];
+    
   const int kNumResults = 5;
   const float kThreshold = 0.1f;
 
