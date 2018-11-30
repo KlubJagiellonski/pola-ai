@@ -1,35 +1,68 @@
-#### Buid Docker image
-
-```
-$ cd docker 
-$ docker build -t pola-ai-image-tensorflow-latest-cpu .
-```
-
-#### Run Docker container
-
+#### Install Tensorflow
+Based on: https://www.tensorflow.org/install/pip
 ```
 $ cd data
-$ docker run --rm -it -v `pwd`:/app pola-ai-image-tensorflow-latest-cpu
+$ sudo pip3 install -U virtualenv
+$ virtualenv --system-site-packages -p python3 ./venv
+$ source ./venv/bin/activate
+$ pip install --upgrade pip
+$ pip install --upgrade tensorflow==1.12.0
+$ pip install --upgrade tensorflow-hub==40.6.2
+$ pip install --upgrade requests
+$ pip install --upgrade pillow
+
+
+$ deactivate # run when finished
 ```
 
 #### Download pictures from Pola
-```angular2html
+```
 $ cd data
 $ python get_ai_pics.py $SHARED_SECRET Pola_ai
 ```
 
-#### Retrain Inception v3 model for mobile inside Docker container 
-
+#### Retrain MobileNet v2 model
+# https://raw.githubusercontent.com/tensorflow/hub/master/examples/image_retraining/retrain.py
 ```
-$ cd /app
-$ rm -rf bottleneck inc_v3 pola_retrained.pb pola_retrained_labels.txt q_stripped_pola_retrained.pb stripped_pola_retrained.pb
-$ /tensorflow/bazel-bin/tensorflow/examples/image_retraining/retrain --model_dir=inc_v3 --output_graph=pola_retrained.pb --output_labels=pola_retrained_labels.txt --image_dir=Pola_ai --bottleneck_dir=bottleneck --print_misclassified_test_images --validation_percentage=20 --how_many_training_steps=400
-$ /tensorflow/bazel-bin/tensorflow/python/tools/strip_unused --input_graph=pola_retrained.pb --output_graph=stripped_pola_retrained.pb --input_node_names=Mul --output_node_names=final_result --input_binary=true
-$ /tensorflow/bazel-bin/tensorflow/tools/quantization/quantize_graph --input=stripped_pola_retrained.pb --output_node_names=final_result --output=q_stripped_pola_retrained.pb --mode=weights
+$ rm -rf model bottleneck pola_retrained.pb pola_retrained_labels.txt pola_retrained.tflite
+
+python retrain.py \
+  --bottleneck_dir=bottleneck \
+  --how_many_training_steps=4000 \
+  --model_dir=model \
+  --output_graph=pola_retrained.pb \
+  --output_labels=pola_retrained_labels.txt \
+  --tfhub_module=https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/2 \       --image_dir=Pola_ai \
+  --validation_percentage=15
+
+# test retrained model  
+$ python label_image.py \
+  --graph=pola_retrained.pb \
+  --labels=pola_retrained_labels.txt \
+  --image=$IMAGE
+```
+
+#### Convert model to tflite
+```
+toco \
+  --graph_def_file=pola_retrained.pb \
+  --input_format=TENSORFLOW_GRAPHDEF \
+  --output_format=TFLITE \
+  --output_file=pola_retrained.tflite \
+  --inference_type=FLOAT \
+  --input_type=FLOAT \
+  --input_arrays=Placeholder \
+  --output_arrays=final_result \
+  --input_shapes=1,224,224,3
+
+$ python lite_label_image.py \
+  -m pola_retrained.tflite 
+  -l pola_retrained_labels.txt
+  -i $IMAGE
 ```
 
 #### Copy retrained model and labels to iOS app
 ```
 $ cd data
-$ cp q_stripped_pola_retrained.pb pola_retrained_labels.txt ../ios_camera/data
+$ cp pola_retrained.tflite pola_retrained_labels.txt ../ios_camera/data
 ```
