@@ -1,11 +1,9 @@
 data/Pola_att
 data/Pola_jpg
 data/pola_retrained.pb
+data/pola_retrained.tflite
 data/pola_retrained_labels.txt
-data/q_stripped_pola_retrained.pb
-data/stripped_pola_retrained.pb
 data/bottleneck
-data/inc_v3
 ios_camera/Pods
 data/Pola_ai
 android_camera/.gradle
