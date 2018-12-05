@@ -37,7 +37,7 @@ namespace {
 NSString* model_file_name = @"pola_retrained";
 NSString* model_file_type = @"tflite";
 // If you have your own model, point this to the labels file.
-NSString* labels_file_name = @"pola_retrained";
+NSString* labels_file_name = @"pola_retrained_labels";
 NSString* labels_file_type = @"txt";
 
 // These dimensions need to match those the model was trained with.
