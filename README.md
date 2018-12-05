@@ -28,7 +28,7 @@ $ rm -rf model bottleneck pola_retrained.pb pola_retrained_labels.txt pola_retra
 
 python retrain.py \
   --bottleneck_dir=bottleneck \
-  --how_many_training_steps=4000 \
+  --how_many_training_steps=500000 \
   --model_dir=model \
   --output_graph=pola_retrained.pb \
   --output_labels=pola_retrained_labels.txt \
@@ -39,7 +39,7 @@ python retrain.py \
 $ python label_image.py \
   --graph=pola_retrained.pb \
   --labels=pola_retrained_labels.txt \
-  --image=$IMAGE
+  --image=ludwik.jpg
 ```
 
 #### Convert model to tflite
@@ -56,13 +56,14 @@ toco \
   --input_shapes=1,224,224,3
 
 $ python lite_label_image.py \
-  -m pola_retrained.tflite 
-  -l pola_retrained_labels.txt
-  -i $IMAGE
+  -m pola_retrained.tflite \
+  -l pola_retrained_labels.txt \
+  -i ludwik.jpg
 ```
 
-#### Copy retrained model and labels to iOS app
+#### Copy retrained model and labels to iOS and Android app
 ```
 $ cd data
 $ cp pola_retrained.tflite pola_retrained_labels.txt ../ios_camera/data
+$ cp pola_retrained.tflite pola_retrained_labels.txt ../android_camera/app/src/main/assets
 ```
