@@ -12,3 +12,7 @@ android_camera/gradleBuild
 local.properties
 ios_camera/tflite_camera_example.xcodeproj
 data/venv
+android_camera/gradle-build
+android_camera/app/build
+android_camera/app/src/main/assets/*.tflite
+pola_retrained_labels.txt
