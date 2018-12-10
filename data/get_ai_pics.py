@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 from PIL import Image
 
 MAX_NO_REQUESTS = 50
-POLISH_LETTERS = [u'ąćęłńóźżĄĆĘŁÓŹŻ',u'acelnozzACELOZZ']
+POLISH_LETTERS = [u'ąćęłńóśźżĄĆĘŃŁÓŚŹŻ',u'acelnoszzACENLOSZZ']
 
 def normalize_name(name):
     name = name[:30].strip()
