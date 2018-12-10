@@ -59,8 +59,8 @@ public class ImageClassifier {
     static final int DIM_IMG_SIZE_X = 224;
     static final int DIM_IMG_SIZE_Y = 224;
 
-    private static final int IMAGE_MEAN = 128;
-    private static final float IMAGE_STD = 128.0f;
+    private static final int IMAGE_MEAN = 0;
+    private static final float IMAGE_STD = 255.0f;
 
 
     /* Preallocated buffers for storing image data in. */

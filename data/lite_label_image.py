@@ -43,8 +43,8 @@ if __name__ == "__main__":
     help=".tflite model to be executed")
   parser.add_argument("-l", "--label_file", default="/tmp/labels.txt", \
     help="name of file containing labels")
-  parser.add_argument("--input_mean", default=127.5, help="input_mean")
-  parser.add_argument("--input_std", default=127.5, \
+  parser.add_argument("--input_mean", default=0, help="input_mean")
+  parser.add_argument("--input_std", default=255, \
     help="input standard deviation")
   args = parser.parse_args()
 

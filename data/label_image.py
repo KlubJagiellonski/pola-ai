@@ -79,8 +79,8 @@ if __name__ == "__main__":
   label_file = "tensorflow/examples/label_image/data/imagenet_slim_labels.txt"
   input_height = 224
   input_width = 224
-  input_mean = 127
-  input_std = 127
+  input_mean = 0
+  input_std = 255
   input_layer = "Placeholder"
   output_layer = "final_result"
 
@@ -123,8 +123,8 @@ if __name__ == "__main__":
       input_mean=input_mean,
       input_std=input_std)
 
-  input_name =  'import/' + input_layer
-  output_name = 'import/' + output_layer
+  input_name =  "import/" + input_layer
+  output_name = "import/" + output_layer
   input_operation = graph.get_operation_by_name(input_name)
   output_operation = graph.get_operation_by_name(output_name)
 

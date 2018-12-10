@@ -44,8 +44,8 @@ NSString* labels_file_type = @"txt";
 const int wanted_input_width = 224;
 const int wanted_input_height = 224;
 const int wanted_input_channels = 3;
-const float input_mean = 128.0f;
-const float input_std = 128.0f;
+const float input_mean = 0.0f;
+const float input_std = 255.0f;
 
 NSString* FilePathForResourceName(NSString* name, NSString* extension) {
   NSString* file_path = [[NSBundle mainBundle] pathForResource:name ofType:extension];
