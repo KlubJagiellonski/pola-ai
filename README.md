@@ -34,7 +34,10 @@ python retrain.py \
   --output_labels=pola_retrained_labels.txt \
   --tfhub_module=https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/2 \       --image_dir=Pola_ai \
   --validation_percentage=15 \
-  --print_misclassified_test_images
+  --misclassified_test_images_output_file=misclassified_images.txt
+
+# print urls to misclassified images
+$ python show_misclassified_urls.py
 
 # test retrained model  
 $ python label_image.py \

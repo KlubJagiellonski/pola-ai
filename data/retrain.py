@@ -864,6 +864,12 @@ def run_final_eval(train_session, module_spec, class_count, image_lists,
       if predictions[i] != test_ground_truth[i]:
         tf.logging.info('%70s  %s' % (test_filename,
                                       list(image_lists.keys())[predictions[i]]))
+  if FLAGS.misclassified_test_images_output_file:
+    with tf.gfile.FastGFile(FLAGS.misclassified_test_images_output_file, 'w') as f:
+      for i, test_filename in enumerate(test_filenames):
+        if predictions[i] != test_ground_truth[i]:
+          f.write('%70s  %s' % (test_filename, list(image_lists.keys())[predictions[i]]) + '\n')
+    tf.logging.info('MISCLASSIFIED TEST IMAGES saved to %s'%(FLAGS.misclassified_test_images_output_file))
 
 
 def build_eval_session(module_spec, class_count):
@@ -1248,6 +1254,12 @@ if __name__ == '__main__':
       Whether to print out a list of all misclassified test images.\
       """,
       action='store_true'
+  )
+  parser.add_argument(
+      '--misclassified_test_images_output_file',
+      type=str,
+      default='/tmp/output_misclassified_test_images.txt',
+      help='Where to save the misclassified test images.'
   )
   parser.add_argument(
       '--bottleneck_dir',
