@@ -8,7 +8,7 @@ from aiohttp import ClientSession
 from urllib.parse import urlparse
 from PIL import Image
 
-MAX_NO_REQUESTS = 50
+MAX_NO_REQUESTS = 20
 POLISH_LETTERS = [u'ąćęłńóśźżĄĆĘŃŁÓŚŹŻ',u'acelnoszzACENLOSZZ']
 
 def normalize_name(name):
@@ -38,7 +38,7 @@ async def bound_download_file(sem, session, url, data_dir, filename, filename_jp
     async with sem:
         return await download_file(session, url, data_dir, filename, filename_jpg)
 
-async def download_files(aipics):
+async def download_files(aipics, existing_dirs, existing_files):
     tasks = []
     sem = asyncio.Semaphore(MAX_NO_REQUESTS)  # create instance of Semaphore; limit open requests to MAX_NO_REQUESTS
     async with ClientSession() as session:
@@ -114,7 +114,7 @@ if __name__ == "__main__":
                 existing_files.add(s)
 
     loop = asyncio.get_event_loop()
-    future = asyncio.ensure_future(download_files(aipics))
+    future = asyncio.ensure_future(download_files(aipics, existing_dirs, existing_files))
     loop.run_until_complete(future)
 
     for filename in existing_files:
