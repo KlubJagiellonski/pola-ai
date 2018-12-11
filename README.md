@@ -7,7 +7,7 @@ $ virtualenv --system-site-packages -p python3 ./venv
 $ source ./venv/bin/activate
 $ pip install --upgrade pip
 $ pip install --upgrade tensorflow==1.12.0
-$ pip install --upgrade tensorflow-hub==40.6.2
+$ pip install --upgrade tensorflow-hub==0.1.1
 $ pip install --upgrade requests
 $ pip install --upgrade pillow
 
@@ -28,12 +28,13 @@ $ rm -rf model bottleneck pola_retrained.pb pola_retrained_labels.txt pola_retra
 
 python retrain.py \
   --bottleneck_dir=bottleneck \
-  --how_many_training_steps=500000 \
+  --how_many_training_steps=20000 \
   --model_dir=model \
   --output_graph=pola_retrained.pb \
   --output_labels=pola_retrained_labels.txt \
   --tfhub_module=https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/2 \       --image_dir=Pola_ai \
-  --validation_percentage=15
+  --validation_percentage=15 \
+  --print_misclassified_test_images
 
 # test retrained model  
 $ python label_image.py \
