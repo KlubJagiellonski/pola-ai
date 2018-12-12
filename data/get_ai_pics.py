@@ -4,11 +4,11 @@ import argparse
 import operator
 import os
 import asyncio
-from aiohttp import ClientSession
+from aiohttp import ClientSession, client_exceptions
 from urllib.parse import urlparse
 from PIL import Image
 
-MAX_NO_REQUESTS = 20
+MAX_NO_REQUESTS = 50
 POLISH_LETTERS = [u'ąćęłńóśźżĄĆĘŃŁÓŚŹŻ',u'acelnoszzACENLOSZZ']
 
 def normalize_name(name):
@@ -21,17 +21,24 @@ def normalize_name(name):
 
 async def download_file(session, url, data_dir, filename, filename_jpg):
     print('Downloading: '+filename)
-    async with session.get(url) as response:
-        with open(os.path.join(data_dir, filename), 'wb') as f:
-            content = await response.read()
-            f.write(content)
+    retry = 3
+    while (retry > 0):
+        try:
+            async with session.get(url) as response:
+                with open(os.path.join(data_dir, filename), 'wb') as f:
+                    content = await response.read()
+                    f.write(content)
 
-        if filename.endswith('.png'):
-            im = Image.open(os.path.join(data_dir, filename))
-            if im.mode != 'RGB':
-                im = im.convert('RGB')
-            im.save(os.path.join(data_dir, filename_jpg), quality=100)
-            os.remove(os.path.join(data_dir, filename))
+                if filename.endswith('.png'):
+                    im = Image.open(os.path.join(data_dir, filename))
+                    if im.mode != 'RGB':
+                        im = im.convert('RGB')
+                    im.save(os.path.join(data_dir, filename_jpg), quality=100)
+                    os.remove(os.path.join(data_dir, filename))
+                break
+        except client_exceptions.ServerDisconnectedError:
+            retry -= 1
+            pass
 
 async def bound_download_file(sem, session, url, data_dir, filename, filename_jpg):
     # Getter function with semaphore.
