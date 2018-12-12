@@ -4,7 +4,7 @@ import argparse
 import operator
 import os
 import asyncio
-from aiohttp import ClientSession, client_exceptions
+from aiohttp import ClientSession, ClientTimeout, client_exceptions
 from urllib.parse import urlparse
 from PIL import Image
 
@@ -24,8 +24,7 @@ async def download_file(session, url, data_dir, filename, filename_jpg):
     retry = 3
     while (retry > 0):
         try:
-            async with session.get(url,
-                timeout=60, read_timeout=60, conn_timeout=5) as response:
+            async with session.get(url) as response:
                 with open(os.path.join(data_dir, filename), 'wb') as f:
                     content = await response.read()
                     f.write(content)
@@ -49,7 +48,7 @@ async def bound_download_file(sem, session, url, data_dir, filename, filename_jp
 async def download_files(aipics, existing_dirs, existing_files):
     tasks = []
     sem = asyncio.Semaphore(MAX_NO_REQUESTS)  # create instance of Semaphore; limit open requests to MAX_NO_REQUESTS
-    async with ClientSession() as session:
+    async with ClientSession(timeout=ClientTimeout(total=60, connect=60, sock_connect=60, sock_read=60)) as session:
         for aipic in aipics:
             if aipic['code'] in top_codes:
 
