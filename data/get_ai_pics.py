@@ -24,7 +24,8 @@ async def download_file(session, url, data_dir, filename, filename_jpg):
     retry = 3
     while (retry > 0):
         try:
-            async with session.get(url) as response:
+            async with session.get(url,
+                timeout=60, read_timeout=60, conn_timeout=5) as response:
                 with open(os.path.join(data_dir, filename), 'wb') as f:
                     content = await response.read()
                     f.write(content)
@@ -36,7 +37,7 @@ async def download_file(session, url, data_dir, filename, filename_jpg):
                     im.save(os.path.join(data_dir, filename_jpg), quality=100)
                     os.remove(os.path.join(data_dir, filename))
                 break
-        except client_exceptions.ServerDisconnectedError:
+        except (client_exceptions.ServerDisconnectedError, asyncio.TimeoutError):
             retry -= 1
             pass
 
