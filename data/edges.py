@@ -56,11 +56,13 @@ if __name__ == "__main__":
                         bottom -= 1
                         skipped_edges += bottom_edge
                 
-#            img = cv2.rectangle(img, (left, top), (right, bottom), (255,255,255), 2)
 #            bgr_edges = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
-#            both = np.hstack((img, bgr_edges))
+#            img = cv2.rectangle(img, (left, top), (right, bottom), (255,255,255), 2)
+#            all = np.hstack((img, bgr_edges))
+#            output_filename = os.path.join(OUTPUT_FOLDER, file)
+#            cv2.imwrite(output_filename, all)
+            
 
             cropped = img[top:bottom, left:right]
-            resized = cv2.resize(cropped, (OUTPUT_SIZE, OUTPUT_SIZE))
-
-            cv2.imwrite(output_filename, resized)
+#            resized = cv2.resize(cropped, (OUTPUT_SIZE, OUTPUT_SIZE))
+            cv2.imwrite(output_filename, cropped)
