@@ -4,14 +4,15 @@ data/pola_retrained.pb
 data/pola_retrained.tflite
 data/pola_retrained_labels.txt
 data/bottleneck
-ios_camera/Pods
+data/Pola_edges
 data/Pola_ai
+data/venv
+ios_camera/Pods
 android_camera/.gradle
 android_camera/gradle
 android_camera/gradleBuild
 local.properties
 ios_camera/tflite_camera_example.xcodeproj
-data/venv
 android_camera/gradle-build
 android_camera/app/build
 android_camera/app/src/main/assets/*.tflite

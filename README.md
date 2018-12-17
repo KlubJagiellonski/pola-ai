@@ -10,7 +10,7 @@ $ pip install --upgrade tensorflow==1.12.0
 $ pip install --upgrade tensorflow-hub==0.1.1
 $ pip install --upgrade requests
 $ pip install --upgrade pillow
-
+$ pip install --upgrade opencv-python
 
 $ deactivate # run when finished
 ```
@@ -32,7 +32,8 @@ python retrain.py \
   --model_dir=model \
   --output_graph=pola_retrained.pb \
   --output_labels=pola_retrained_labels.txt \
-  --tfhub_module=https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/2 \       --image_dir=Pola_ai \
+  --tfhub_module=https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/2 \
+  --image_dir=Pola_ai \
   --validation_percentage=15 \
   --misclassified_test_images_output_file=misclassified_images.txt
 
