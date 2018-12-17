@@ -31,18 +31,15 @@ if __name__ == "__main__":
             edges = cv2.Canny(img,100,200)
 
             height, width = img.shape[:2]
-            total_edges = 0
-            for x in range(width):
-                for y in range(height):
-                    total_edges += edges[y,x]
+            total_edges = edges.sum()
 
             left, top, right, bottom = (0, 0, width-1, height-1)
             skipped_edges = 0
-            while right-left > 100 and bottom - top > 100  and \
+            while right-left > OUTPUT_SIZE and bottom - top > OUTPUT_SIZE  and \
                   (skipped_edges < SKIP_EDGSS_RATIO * total_edges or (right-left) != (bottom-top)):
                 if right - left > bottom - top:
-                    left_edge = sum(edges[y, left] for y in range(top, bottom))
-                    right_edge= sum(edges[y, right] for y in range(top, bottom))
+                    left_edge = np.sum(edges[top:bottom, left])
+                    right_edge = np.sum(edges[top:bottom, right])
                     if left_edge < right_edge:
                         left += 1
                         skipped_edges += left_edge
@@ -50,8 +47,8 @@ if __name__ == "__main__":
                         right -= 1
                         skipped_edges += right_edge
                 else:
-                    top_edge = sum(edges[top, x] for x in range(left, right))
-                    bottom_edge = sum(edges[bottom, x] for x in range(left, right))
+                    top_edge = np.sum(edges[top, left:right])
+                    bottom_edge = np.sum(edges[bottom, left:right])
                     if top_edge < bottom_edge:
                         top += 1
                         skipped_edges += top_edge
