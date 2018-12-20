@@ -5,6 +5,7 @@ data/pola_retrained.tflite
 data/pola_retrained_labels.txt
 data/bottleneck
 data/Pola_edges
+data/Pola_scaled
 data/Pola_ai
 data/venv
 ios_camera/Pods

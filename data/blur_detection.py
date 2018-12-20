@@ -16,8 +16,12 @@ def blur_distribution(photo_dir):
     # Returns blurs of all photos in a directory
     blur_ratios = []
     for subdir in os.listdir(photo_dir):
+        if subdir.startswith('.'):
+            continue
         print(subdir)
         for photo in os.listdir(os.path.join(photo_dir, subdir)):
+            if photo.startswith('.'):
+                continue
             photo_path = os.path.join(photo_dir, subdir, photo)
             blur_ratios.append(blur_ratio(photo_path))
     return sorted(blur_ratios)
