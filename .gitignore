@@ -18,3 +18,8 @@ android_camera/gradle-build
 android_camera/app/build
 android_camera/app/src/main/assets/*.tflite
 pola_retrained_labels.txt
+data/Pola_bad
+data/Pola_good
+misclassified_images.txt
+misclassified_images.html
+nivea.jpg
