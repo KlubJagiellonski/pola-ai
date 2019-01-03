@@ -2,9 +2,6 @@ import os
 import cv2
 import numpy as np
 
-from profiler import BasicProfiler
-p = BasicProfiler()
-
 IMAGES_FOLDER = 'Pola_ai'
 OUTPUT_FOLDER = 'Pola_scaled'
 TARGET_ASPECT_RATIO = 480 / 640 # = 0.75
