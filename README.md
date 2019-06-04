@@ -22,18 +22,18 @@ $ python get_ai_pics.py $SHARED_SECRET Pola_ai
 ```
 
 #### Retrain MobileNet v2 model
-# https://raw.githubusercontent.com/tensorflow/hub/master/examples/image_retraining/retrain.py
 ```
 $ rm -rf model bottleneck pola_retrained.pb pola_retrained_labels.txt pola_retrained.tflite
 
-```python retrain.py \
+# https://raw.githubusercontent.com/tensorflow/hub/master/examples/image_retraining/retrain.py
+python retrain.py \
   --bottleneck_dir=bottleneck \
   --how_many_training_steps=20000 \
   --model_dir=model \
   --output_graph=pola_retrained.pb \
   --output_labels=pola_retrained_labels.txt \
   --tfhub_module=https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/2 \
-  --image_dir=Pola_edges \
+  --image_dir=Pola_ai \
   --validation_percentage=15 \
   --misclassified_test_images_output_file=misclassified_images.txt```
 
